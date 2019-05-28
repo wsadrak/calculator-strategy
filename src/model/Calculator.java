@@ -9,24 +9,25 @@ public class Calculator {
 	private static final String MINUS = "-";
 	private static final String PLUS = "+";
 
-	public double doOperation(double a, double b, String operator) {
+	public double doOperation(String a, String b, String operator) {
 		double result = 0;
-
+		double firstValue = Double.parseDouble(a);
+		double secondValue = Double.parseDouble(b);
 		switch (operator) {
 		case PLUS:
-			result = add(a, b);
+			result = add(firstValue, secondValue);
 			break;
 		case MINUS:
-			result = subtract(a, b);
+			result = subtract(firstValue, secondValue);
 			break;
 		case MULTIPLY:
-			result = multiply(a, b);
+			result = multiply(firstValue, secondValue);
 			break;
 		case DIVIDE:
-			result = divide(a, b);
+			result = divide(firstValue, secondValue);
 			break;
 		default:
-			throw new UnknownOperatorException("Wykorzystujesz niezdefiniowany operator arytmetyczny");
+			throw new UnknownOperatorException("Undefined math operator");
 		}
 		return result;
 	}
