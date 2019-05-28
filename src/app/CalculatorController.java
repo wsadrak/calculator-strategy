@@ -1,15 +1,16 @@
 package app;
 
 import exception.UnknownOperatorException;
+import io.ConsolePrinter;
 import io.DataReader;
 import model.Calculator;
 
 public class CalculatorController {
-	Calculator calculator = new Calculator();
 	DataReader dataReader = new DataReader();
+	ConsolePrinter consolePrinter = new ConsolePrinter();
 
-	private double firstValue;
-	private double secondValue;
+	private String firstValue;
+	private String secondValue;
 	private String operator;
 	private double result;
 	boolean calculationsComplete;
@@ -17,32 +18,43 @@ public class CalculatorController {
 	public void mainLoop() {
 
 		while (!calculationsComplete) {
-			try {
-				readValues();
-				calculateResult();
-
-			} catch (NumberFormatException | UnknownOperatorException e) {
-				System.out.println("Nieprawid³owy format danych. Spróbuj ponownie.");
-			}
-
+			readValues();
+			calculateResult();
+			printResult();
 		}
 	}
 
-	private void printingResult() {
-		System.out.println(firstValue + operator + secondValue + "=" + result);
-	}
-
-	private void calculateResult() {
-		result = calculator.doOperation(firstValue, secondValue, operator);
-		calculationsComplete = true;
-		if (calculationsComplete)
-			printingResult();
-	}
 
 	private void readValues() {
-		firstValue = dataReader.readDoubleFromUser();
-		secondValue = dataReader.readDoubleFromUser();
-		operator = dataReader.readCharacter();
+		consolePrinter.print("First number: ");
+		firstValue = dataReader.readInputFromUser();
+		
+		consolePrinter.print("Second number: ");
+		secondValue = dataReader.readInputFromUser();
+		
+		consolePrinter.print("Operator: ");
+		operator = dataReader.readInputFromUser();
 	}
+	
+	private void calculateResult() {
+		Calculator calculator = new Calculator();
+		
+		try {
+			calculator.doOperation(firstValue, secondValue, operator);
+			calculationsComplete = true;
+		} catch (NumberFormatException exception) {
+			consolePrinter.print("Invalid data format. Please try again. ");
+		} catch (UnknownOperatorException exception) {
+			consolePrinter.print(exception.getMessage() + ". Please try again. ");
+		}
+	}
+
+	private void printResult() {
+		if(calculationsComplete) {
+			consolePrinter.print(firstValue + " " + operator + " " + secondValue + " = " + result);
+		}
+	}
+
+
 
 }
