@@ -1,9 +1,9 @@
-package app;
+package model;
 
 public class OperationDivide implements Strategy {
 
 	@Override
-	public int calculate(int a, int b) {
+	public double calculate(double a, double b) {
 		return a/b;
 	}
 

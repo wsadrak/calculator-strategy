@@ -1,4 +1,4 @@
-package app;
+package model;
 
 public class Context {
 	Strategy strategy;
@@ -8,7 +8,7 @@ public class Context {
 		this.strategy = strategy;
 	}
 
-	public int executeStrategy(int a, int b) {
+	public double executeStrategy(double a, double b) {
 		return strategy.calculate(a, b);
 	}
 }
