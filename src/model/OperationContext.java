@@ -1,10 +1,10 @@
 package model;
 
-public class Context {
+public class OperationContext {
 	Strategy strategy;
 	
 	
-	public Context(Strategy strategy) {
+	public OperationContext(Strategy strategy) {
 		this.strategy = strategy;
 	}
 
