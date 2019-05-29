@@ -9,22 +9,26 @@ public class Calculator {
 	private static final String MINUS = "-";
 	private static final String PLUS = "+";
 
-	public double doOperation(String a, String b, String operator) {
+	public double doOperation(String firstValue, String secondValue, String operator) {
 		double result = 0;
-		double firstValue = Double.parseDouble(a);
-		double secondValue = Double.parseDouble(b);
+		double firstNumber = convertToNumber(firstValue);
+		double secondNumber = convertToNumber(secondValue);
+		
 		switch (operator) {
 		case PLUS:
-			result = add(firstValue, secondValue);
+			result = add(firstNumber, secondNumber);
 			break;
 		case MINUS:
-			result = subtract(firstValue, secondValue);
+			result = subtract(firstNumber, secondNumber);
 			break;
 		case MULTIPLY:
-			result = multiply(firstValue, secondValue);
+			result = multiply(firstNumber, secondNumber);
 			break;
 		case DIVIDE:
-			result = divide(firstValue, secondValue);
+			if(secondNumber == 0) {
+				throw new ArithmeticException("You can't divide by 0");
+			}
+			result = divide(firstNumber, secondNumber);
 			break;
 		default:
 			throw new UnknownOperatorException("Undefined math operator");
@@ -32,23 +36,28 @@ public class Calculator {
 		return result;
 	}
 
+	private double convertToNumber(String a) {
+		double firstValue = Double.parseDouble(a);
+		return firstValue;
+	}
+
 	private double add(double a, double b) {
-		Context context = new Context(new OperationAdd());
+		OperationContext context = new OperationContext(new OperationAdd());
 		return context.executeStrategy(a, b);
 	}
 
 	private double subtract(double a, double b) {
-		Context context = new Context(new OperationSubtract());
+		OperationContext context = new OperationContext(new OperationSubtract());
 		return context.executeStrategy(a, b);
 	}
 
 	private double divide(double a, double b) {
-		Context context = new Context(new OperationDivide());
+		OperationContext context = new OperationContext(new OperationDivide());
 		return context.executeStrategy(a, b);
 	}
 
 	private double multiply(double a, double b) {
-		Context context = new Context(new OperationMultiply());
+		OperationContext context = new OperationContext(new OperationMultiply());
 		return context.executeStrategy(a, b);
 	}
 
