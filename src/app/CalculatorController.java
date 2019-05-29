@@ -12,15 +12,14 @@ public class CalculatorController {
 	private String firstValue;
 	private String secondValue;
 	private String operator;
-	private double result;
 	boolean calculationsComplete;
 
 	public void mainLoop() {
 
 		while (!calculationsComplete) {
 			readValues();
-			calculateResult();
-			printResult();
+			double result = calculateResult();
+			printResult(result);
 		}
 	}
 
@@ -36,20 +35,22 @@ public class CalculatorController {
 		operator = dataReader.readInputFromUser();
 	}
 	
-	private void calculateResult() {
+	private double calculateResult() {
 		Calculator calculator = new Calculator();
-		
+		double calculationResult = 0;
 		try {
-			calculator.doOperation(firstValue, secondValue, operator);
+			calculationResult = calculator.doOperation(firstValue, secondValue, operator);
 			calculationsComplete = true;
-		} catch (NumberFormatException exception) {
+		} catch (NumberFormatException | ArithmeticException exception) {
 			consolePrinter.print("Invalid data format. Please try again. ");
 		} catch (UnknownOperatorException exception) {
 			consolePrinter.print(exception.getMessage() + ". Please try again. ");
 		}
+		
+		return calculationResult;
 	}
 
-	private void printResult() {
+	private void printResult(double result) {
 		if(calculationsComplete) {
 			consolePrinter.print(firstValue + " " + operator + " " + secondValue + " = " + result);
 		}
